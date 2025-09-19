@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeAlgo - Advanced Trading Algorithm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #1a56db;
+            --secondary: #0f2b5b;
+            --accent: #00c896;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --dark: #1e293b;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        h1, h2, h3, h4 {
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #0e4bb6;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 32px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Market Data Section */
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .search-box {
+            display: flex;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .search-box button {
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stock-table th, .stock-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stock-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .stock-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .stock-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .positive {
+            color: #27ae60;
+        }
+        
+        .negative {
+            color: #e74c3c;
+        }
+        
+        /* Alerts Section */
+        .alerts-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alert-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+        }
+        
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+        
+        .alert-content {
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .alert-gap {
+            background-color: #ffeaa7;
+            color: #d35400;
+        }
+        
+        .alert-volume {
+            background-color: #d6eaf8;
+            color: #2980b9;
+        }
+        
+        .alert-pattern {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+        
+        .alert-time {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        .alert-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Risk Management Section */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .risk-card {
+            padding: 25px;
+        }
+        
+        .risk-card h3 {
+            display: flex;
+            align-items: center;
+        }
+        
+        .risk-card i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        /* AI Pattern Recognition */
+        .ai-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Contact Section */
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .ai-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section-title h2 {
+                font-size: 28px;
+            }
+            
+            .alert-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .alert-actions {
+                margin-top: 15px;
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>TradeAlgo</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#market">Market Data</a></li>
+                    <li><a href="#alerts">Trading Alerts</a></li>
+                    <li><a href="#risk">Risk Management</a></li>
+                    <li><a href="#ai">AI Patterns</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Advanced Algorithmic Trading Solutions</h1>
+            <p>Our hybrid rule-based and AI approach scans markets in real-time, identifying high-probability trading setups with precision.</p>
+            <a href="#market" class="btn">Explore Features</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Features</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Real-time Market Scanning</h3>
+                    <p>Continuous monitoring of gaps, volume spikes, and trend changes across multiple markets.</p>
+                </div>
+                <div class="feature-card card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Pattern Recognition</h3>
+                    <p>Advanced machine learning algorithms identify profitable chart patterns and setups.</p>
+                </div>
+                <div class="feature-card card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Real-time Alerts</h3>
+                    <p>Instant notifications for trading opportunities via email, SMS, or in-app alerts.</p>
+                </div>
+                <div class="feature-card card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Risk Management</h3>
+                    <p>Built-in tools to protect your capital with position sizing and stop-loss automation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Data Section -->
+    <section id="market">
+        <div class="container">
+            <div class="section-title">
+                <h2>Live Market Data</h2>
+                <p>Real-time stock data for high-probability trading setups</p>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="stock-search" placeholder="Enter stock symbol (e.g., AAPL, MSFT, TSLA)">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Price</th>
+                            <th>Change</th>
+                            <th>Volume</th>
+                            <th>Pattern</th>
+                            <th>Signal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stock-data">
+                        <!-- Stock data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trading Alerts Section -->
+    <section id="alerts">
+        <div class="container">
+            <div class="section-title">
+                <h2>Trading Alerts</h2>
+                <p>Real-time alerts for potential trading opportunities</p>
+            </div>
+            
+            <div class="alerts-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Active Alerts</h3>
+                <button id="clear-alerts" class="btn btn-danger">Clear All Alerts</button>
+            </div>
+            
+            <div class="alerts-container">
+                <div id="alerts-list">
+                    <!-- Alerts will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Management Section -->
+    <section id="risk">
+        <div class="container">
+            <div class="section-title">
+                <h2>Risk Management Tools</h2>
+                <p>Protect your capital with our advanced risk management system</p>
+            </div>
+            
+            <div class="risk-grid">
+                <div class="risk-card card">
+                    <h3><i class="fas fa-calculator"></i> Position Sizing</h3>
+                    <p>Our algorithm calculates optimal position sizes based on your account size and risk tolerance, never risking more than 2% per trade.</p>
+                </div>
+                <div class="risk-card card">
+                    <h3><i class="fas fa-exchange-alt"></i> Stop-Loss & Take-Profit</h3>
+                    <p>Automated stop-loss and take-profit levels based on volatility and support/resistance levels to maximize risk-reward ratios.</p>
+                </div>
+                <div class="risk-card card">
+                    <h3><i class="fas fa-chart-pie"></i> Portfolio Diversification</h3>
+                    <p>Intelligent trade allocation across sectors and instruments to minimize correlation risk and maximize opportunities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Pattern Recognition Section -->
+    <section id="ai">
+        <div class="container">
+            <div class="section-title">
+                <h2>AI Pattern Recognition</h2>
+                <p>Advanced machine learning for market pattern detection</p>
+            </div>
+            
+            <div class="ai-content">
+                <div class="ai-info">
+                    <h3>How Our AI Works</h3>
+                    <p>Our proprietary AI engine analyzes millions of historical price patterns to identify high-probability trading setups in real-time. The system continuously learns from new market data, improving its predictive accuracy over time.</p>
+                    <p>Key pattern recognition capabilities:</p>
+                    <ul style="list-style-type: none; margin-left: 20px;">
+                        <li><i class="fas fa-check-circle" style="color: var(--accent); margin-right: 10px;"></i> Candlestick pattern recognition</li>
+                        <li><i class="fas fa-check-circle" style="color: var(--accent); margin-right: 10px;"></i> Chart pattern detection (head and shoulders, triangles, etc.)</li>
+                        <li><i class="fas fa-check-circle" style="color: var(--accent); margin-right: 10px;"></i> Volume spike analysis</li>
+                        <li><i class="fas fa-check-circle" style="color: var(--accent); margin-right: 10px;"></i> Trend strength measurement</li>
+                    </ul>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Pattern Recognition Demo</h3>
+                    <div class="chart-placeholder">
+                        AI Pattern Visualization
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p><strong>Current Prediction:</strong> <span id="ai-prediction">Bullish pattern detected with 78% confidence</span></p>
+                        <p><strong>Recommended Action:</strong> <span id="ai-action">Buy with tight stop-loss</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>Get in touch with our support team</p>
+            </div>
+            
+            <div class="contact-form">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" placeholder="Your message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TradeAlgo</h3>
+                    <p>Advanced algorithmic trading solutions for modern traders.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#market">Market Data</a></li>
+                        <li><a href="#alerts">Trading Alerts</a></li>
+                        <li><a href="#risk">Risk Management</a></li>
+                        <li><a href="#ai">AI Patterns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" id="privacy-link">Privacy Policy</a></li>
+                        <li><a href="#" id="terms-link">Terms of Service</a></li>
+                        <li><a href="#" id="disclosure-link">Disclosure</a></li>
+                        <li><a href="#" id="risk-warning-link">Risk Warning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 123 Trading Street, New York, NY</li>
+                        <li><i class="fas fa-phone" style="margin-right: 10px;"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope" style="margin-right: 10px;"></i> support@tradealgo.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 TradeAlgo. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Legal Pages (Hidden Modals) -->
+    <div id="privacy-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1001; overflow: auto;">
+        <div style="background-color: white; margin: 5% auto; padding: 30px; width: 80%; max-width: 800px; border-radius: 8px;">
+            <h2>Privacy Policy</h2>
+            <p>Last updated: October 15, 2023</p>
+            <p>TradeAlgo ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how your personal information is collected, used, and disclosed by TradeAlgo.</p>
+            <h3>Information We Collect</h3>
+            <p>We collect information you provide directly to us, such as when you create an account, subscribe to our services, or contact us for support.</p>
+            <h3>How We Use Your Information</h3>
+            <p>We use the information we collect to provide, maintain, and improve our services, to develop new services, and to protect our users.</p>
+            <button class="btn" onclick="closeModal('privacy-modal')">Close</button>
+        </div>
+    </div>
+
+    <div id="terms-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1001; overflow: auto;">
+        <div style="background-color: white; margin: 5% auto; padding: 30px; width: 80%; max-width: 800px; border-radius: 8px;">
+            <h2>Terms of Service</h2>
+            <p>Last updated: October 15, 2023</p>
+            <p>By accessing or using our services, you agree to be bound by these Terms of Service and our Privacy Policy.</p>
+            <h3>Eligibility</h3>
+            <p>You must be at least 18 years old to use our services. By using our services, you represent and warrant that you meet this requirement.</p>
+            <h3>Account Registration</h3>
+            <p>You may be required to register for an account to access certain features of our services. You are responsible for maintaining the confidentiality of your account credentials.</p>
+            <button class="btn" onclick="closeModal('terms-modal')">Close</button>
+        </div>
+    </div>
+
+    <div id="disclosure-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1001; overflow: auto;">
+        <div style="background-color: white; margin: 5% auto; padding: 30px; width: 80%; max-width: 800px; border-radius: 8px;">
+            <h2>Disclosure</h2>
+            <p>TradeAlgo provides algorithmic trading software and educational content. We are not a registered investment advisor or broker-dealer.</p>
+            <h3>No Investment Advice</h3>
+            <p>The information provided on our platform is for educational and informational purposes only. It should not be considered as investment advice.</p>
+            <h3>Performance Disclosure</h3>
+            <p>Past performance is not indicative of future results. Trading financial instruments involves significant risk and may not be suitable for all investors.</p>
+            <button class="btn" onclick="closeModal('disclosure-modal')">Close</button>
+        </div>
+    </div>
+
+    <div id="risk-warning-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1001; overflow: auto;">
+        <div style="background-color: white; margin: 5% auto; padding: 30px; width: 80%; max-width: 800px; border-radius: 8px;">
+            <h2>Risk Warning</h2>
+            <p>Trading financial instruments involves significant risk of loss and is not suitable for all investors.</p>
+            <h3>Market Risk</h3>
+            <p>The value of investments can go down as well as up, and you may receive less than you originally invested.</p>
+            <h3>Leverage Risk</h3>
+            <p>The use of leverage can work against you as well as for you and can lead to large losses as well as gains.</p>
+            <h3>System Risk</h3>
+            <p>Technical failures, internet connectivity issues, and other system problems may prevent order execution.</p>
+            <button class="btn" onclick="closeModal('risk-warning-modal')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Dummy stock data
+        const stocks = [
+            { symbol: 'AAPL', price: 178.72, change: 1.24, changePercent: 0.70, volume: '32.5M', pattern: 'Bull Flag', signal: 'Buy' },
+            { symbol: 'MSFT', price: 337.69, change: -0.85, changePercent: -0.25, volume: '25.1M', pattern: 'Consolidation', signal: 'Hold' },
+            { symbol: 'TSLA', price: 260.53, change: 8.72, changePercent: 3.46, volume: '78.3M', pattern: 'Breakout', signal: 'Strong Buy' },
+            { symbol: 'AMZN', price: 142.53, change: 0.93, changePercent: 0.66, volume: '29.7M', pattern: 'Cup and Handle', signal: 'Buy' },
+            { symbol: 'NVDA', price: 435.73, change: 12.56, changePercent: 2.97, volume: '52.4M', pattern: 'Gap Up', signal: 'Buy' },
+            { symbol: 'GOOGL', price: 132.58, change: -1.25, changePercent: -0.93, volume: '19.8M', pattern: 'Resistance', signal: 'Sell' }
+        ];
+
+        // Dummy alerts data
+        let alerts = [
+            { symbol: 'TSLA', type: 'Gap Up', time: '10:23:45', message: 'Price gapped up 3.2% at open with high volume' },
+            { symbol: 'NVDA', type: 'High Volume', time: '10:15:32', message: 'Volume spike detected: 250% above average' },
+            { symbol: 'AAPL', type: 'Pattern Detected', time: '09:58:12', message: 'Bull flag pattern identified on 15min chart' },
+            { symbol: 'AMD', type: 'Trend Change', time: '09:45:23', message: 'Trend reversal signal detected with 85% confidence' }
+        ];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate stock table
+            populateStockTable();
+            
+            // Display alerts
+            displayAlerts();
+            
+            // Set up event listeners
+            document.getElementById('search-btn').addEventListener('click', searchStock);
+            document.getElementById('stock-search').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchStock();
+                }
+            });
+            
+            document.getElementById('clear-alerts').addEventListener('click', clearAlerts);
+            document.getElementById('contact-form').addEventListener('submit', handleContactForm);
+            document.querySelector('.mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+            
+            // Legal page links
+            document.getElementById('privacy-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('privacy-modal').style.display = 'block';
+            });
+            
+            document.getElementById('terms-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('terms-modal').style.display = 'block';
+            });
+            
+            document.getElementById('disclosure-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('disclosure-modal').style.display = 'block';
+            });
+            
+            document.getElementById('risk-warning-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('risk-warning-modal').style.display = 'block';
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+            
+            // Simulate real-time updates
+            setInterval(updateStockPrices, 5000);
+            setInterval(addRandomAlert, 10000);
+        });
+
+        // Populate stock table with data
+        function populateStockTable() {
+            const tableBody = document.getElementById('stock-data');
+            tableBody.innerHTML = '';
+            
+            stocks.forEach(stock => {
+                const row = document.createElement('tr');
+                const changeClass = stock.change >= 0 ? 'positive' : 'negative';
+                
+                row.innerHTML = `
+                    <td>${stock.symbol}</td>
+                    <td>$${stock.price.toFixed(2)}</td>
+                    <td class="${changeClass}">${stock.change >= 0 ? '+' : ''}${stock.change.toFixed(2)} (${stock.change >= 0 ? '+' : ''}${stock.changePercent.toFixed(2)}%)</td>
+                    <td>${stock.volume}</td>
+                    <td>${stock.pattern}</td>
+                    <td>${stock.signal}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Display alerts in the alerts container
+        function displayAlerts() {
+            const alertsContainer = document.getElementById('alerts-list');
+            alertsContainer.innerHTML = '';
+            
+            if (alerts.length === 0) {
+                alertsContainer.innerHTML = '<div class="alert-item"><p>No active alerts</p></div>';
+                return;
+            }
+            
+            alerts.forEach(alert => {
+                const alertItem = document.createElement('div');
+                alertItem.className = 'alert-item';
+                
+                // Determine alert type class
+                let alertTypeClass = '';
+                if (alert.type.includes('Gap')) alertTypeClass = 'alert-gap';
+                else if (alert.type.includes('Volume')) alertTypeClass = 'alert-volume';
+                else if (alert.type.includes('Pattern')) alertTypeClass = 'alert-pattern';
+                else alertTypeClass = 'alert-gap'; // default
+                
+                alertItem.innerHTML = `
+                    <div class="alert-content">
+                        <div class="alert-icon ${alertTypeClass}">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div>
+                            <h4>${alert.symbol} - ${alert.type}</h4>
+                            <p>${alert.message}</p>
+                            <span class="alert-time">${alert.time}</span>
+                        </div>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn btn-outline">View Details</button>
+                    </div>
+                `;
+                
+                alertsContainer.appendChild(alertItem);
+            });
+        }
+
+        // Search for a stock
+        function searchStock() {
+            const searchInput = document.getElementById('stock-search');
+            const symbol = searchInput.value.trim().toUpperCase();
+            
+            if (!symbol) return;
+            
+            // Check if the symbol exists in our dummy data
+            const foundStock = stocks.find(stock => stock.symbol === symbol);
+            
+            if (foundStock) {
+                // Display the stock details in a focused view
+                alert(`Stock Details:\n${foundStock.symbol} - $${foundStock.price.toFixed(2)}\nChange: ${foundStock.change >= 0 ? '+' : ''}${foundStock.change.toFixed(2)} (${foundStock.change >= 0 ? '+' : ''}${foundStock.changePercent.toFixed(2)}%)\nVolume: ${foundStock.volume}\nPattern: ${foundStock.pattern}\nSignal: ${foundStock.signal}`);
+            } else {
+                alert(`Stock symbol ${symbol} not found in our current data.`);
+            }
+            
+            searchInput.value = '';
+        }
+
+        // Clear all alerts
+        function clearAlerts() {
+            if (alerts.length === 0) {
+                alert('There are no alerts to clear.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to clear all alerts?')) {
+                alerts = [];
+                displayAlerts();
+            }
+        }
+
+        // Handle contact form submission
+        function handleContactForm(e) {
+            e.preventDefault();
+            alert('Thank you for your message! Our support team will get back to you soon.');
+            document.getElementById('contact-form').reset();
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Simulate real-time stock price updates
+        function updateStockPrices() {
+            stocks.forEach(stock => {
+                // Random price change between -1% and +1%
+                const changePercent = (Math.random() * 2 - 1) / 100;
+                const change = stock.price * changePercent;
+                
+                stock.price += change;
+                stock.change += change;
+                stock.changePercent = (stock.change / (stock.price - stock.change)) * 100;
+                
+                // Random volume change
+                const volumeChange = Math.random() * 5 - 2.5;
+                const volumeNum = parseFloat(stock.volume);
+                stock.volume = (volumeNum + volumeNum * volumeChange / 100).toFixed(1) + 'M';
+            });
+            
+            populateStockTable();
+        }
+
+        // Add a random alert for demonstration
+        function addRandomAlert() {
+            if (alerts.length >= 10) return; // Limit number of alerts
+            
+            const symbols = ['AAPL', 'MSFT', 'TSLA', 'AMZN', 'NVDA', 'GOOGL', 'META', 'AMD', 'INTC', 'SPY'];
+            const types = ['Gap Up', 'Gap Down', 'High Volume', 'Pattern Detected', 'Trend Change'];
+            const messages = [
+                'Significant price movement detected',
+                'Unusual volume activity',
+                'Technical pattern identified',
+                'Price approaching key resistance level',
+                'Breakout detected from consolidation'
+            ];
+            
+            const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+            const randomType = types[Math.floor(Math.random() * types.length)];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            // Get current time
+            const now = new Date();
+            const time = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+            
+            // Add new alert
+            alerts.unshift({
+                symbol: randomSymbol,
+                type: randomType,
+                time: time,
+                message: randomMessage
+            });
+            
+            // Update alerts display
+            displayAlerts();
+        }
+    </script>
+</body>
+</html>
